@@ -1,2 +1,6 @@
 #ignore generated autodoc files
 autodoc/**
+*.jar
+classes
+lib
+pom.xml
