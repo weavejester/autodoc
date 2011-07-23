@@ -2,13 +2,16 @@
   (:use [clojure.java.io :only [file reader]]
         [clojure.java.shell :only [with-sh-dir sh]]
         [clojure.pprint :only [cl-format pprint]]
-        [leiningen.deps :only [find-jars]]
         [autodoc.params :only (params expand-classpath)]
         [autodoc.build-html :only (branch-subdir)]
         [autodoc.doc-files :only (xform-tree)])
-  
-  (import [java.io File]
-          [java.util.regex Pattern]))
+  (:import [java.io File]
+           [java.util.regex Pattern]))
+
+(defn find-jars [project]
+  (filter #(.endsWith (.getName %) ".jar")
+          (concat (.listFiles (file (:library-path project)))
+                  (.listFiles (file (:root project) "lib/dev")))))
 
 ;;; This was dropped from contrib in 1.3, I think
 (defn re-split [#^Pattern pattern string] 
